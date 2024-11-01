@@ -9,7 +9,7 @@ SimpleModal - is a simple and lightweight JS plugin for creating and working wit
 
 ## Demo
 
-[See demo](https://github.com/ori4510/SimpleModal)
+[See demo](https://ori4510.github.io/SimpleModal/)
 <br>
 <br>
 
@@ -147,7 +147,7 @@ const modalFromHtml = Modal({
 
 ## Parameters
 
-For more details, [see the demo](https://github.com/ori4510/SimpleModal)
+For more details, [see the demo](https://ori4510.github.io/SimpleModal/)
 <br>
 <br>
 
@@ -211,7 +211,7 @@ openWithBtn - Allow opening the modal window from buttons embedded in the pageâ€
 
 Separated into a distinct option to avoid adding unnecessary EventListeners if opening from a button on the page isnâ€™t needed.
 
-For more details, [see the demo](https://github.com/ori4510/SimpleModal#open_with_btn)
+For more details, [see the demo](https://ori4510.github.io/SimpleModal/#open_with_btn)
 
 > **Type**: boolean
 
