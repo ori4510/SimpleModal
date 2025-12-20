@@ -85,7 +85,8 @@
 }
 
 .dom-modal-title {
-	padding-bottom: 35px;
+	margin: 0;
+	padding: 0 0 35px;
 	font-size: 28px;
 }
 

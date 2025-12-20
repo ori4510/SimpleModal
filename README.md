@@ -350,6 +350,16 @@ onCancel: () => {
 ```
 <br>
 
+### Destruction
+
+destroyModal - destruction of a class instance. The DOM element will also be destroyed.
+
+```javascript
+instanceModal.destroyModal();
+```
+
+<br>
+
 ### Font
 
 The font for the modal window is not specified and will inherit from the parent tag.

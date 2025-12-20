@@ -8,20 +8,20 @@ class SimpleModal {
 
 	/**
 	 * @param {Object} options
-     * @param {string} [options.modalId] - Ідентифікатор модального вікна
-     * @param {string} [options.title] - Заголовок модального вікна
-     * @param {string} [options.content] - Контент модального вікна
-     * @param {'simple' | 'info' | 'confirm'} [options.type] - Тип модального вікна (simple, info, confirm)
-     * @param {boolean} [options.openWithBtn] - Дозволити відкривати модальне вікно з кнопки/кнопок вбудованих в HTML
-     * @param {string} [options.modalInfoBtnText] - Текст кнопки інформаційного модального вікна
-     * @param {string} [options.modalConfirmBtnText] - Текст кнопки підтвердження
-     * @param {string} [options.modalCancelBtnText] - Текст кнопки скасування
-     * @param {boolean} [options.wideModal] - Вказує, чи є модальне вікно широким
-     * @param {function} [options.onOpen] - Колбек-функція при відкритті модального вікна
-     * @param {function} [options.onClose] - Колбек-функція при закритті модального вікна
-     * @param {function} [options.onConfirm] - Колбек-функція при підтвердженні, лише для type:confirm
-     * @param {function} [options.onCancel] - Колбек-функція при відмові, лише для type:confirm
-     */
+	 * @param {string} [options.modalId] - Ідентифікатор модального вікна
+	 * @param {string} [options.title] - Заголовок модального вікна
+	 * @param {string} [options.content] - Контент модального вікна
+	 * @param {'simple' | 'info' | 'confirm'} [options.type] - Тип модального вікна (simple, info, confirm)
+	 * @param {boolean} [options.openWithBtn] - Дозволити відкривати модальне вікно з кнопки/кнопок вбудованих в HTML
+	 * @param {string} [options.modalInfoBtnText] - Текст кнопки інформаційного модального вікна
+	 * @param {string} [options.modalConfirmBtnText] - Текст кнопки підтвердження
+	 * @param {string} [options.modalCancelBtnText] - Текст кнопки скасування
+	 * @param {boolean} [options.wideModal] - Вказує, чи є модальне вікно широким
+	 * @param {function} [options.onOpen] - Колбек-функція при відкритті модального вікна
+	 * @param {function} [options.onClose] - Колбек-функція при закритті модального вікна
+	 * @param {function} [options.onConfirm] - Колбек-функція при підтвердженні, лише для type:confirm
+	 * @param {function} [options.onCancel] - Колбек-функція при відмові, лише для type:confirm
+	 */
 	constructor({
 		modalId = null,
 		title = false,
@@ -50,7 +50,7 @@ class SimpleModal {
 		this.onClose = onClose;
 		this.onConfirm = onConfirm;
 		this.onCancel = onCancel;
-		
+
 		if (SimpleModal.idsList.includes(modalId)) {
 			console.error('Duplicate id: ' + modalId);
 			return;
@@ -77,11 +77,11 @@ class SimpleModal {
 
 	_renderModal() {
 		let modalHtml = this._createModal();
-		
+
 		if (this.type === 'info') {
 			modalHtml = this._createInfoModal(modalHtml);
 		}
-		
+
 		if (this.type === 'confirm') {
 			modalHtml = this._createConfirmModal(modalHtml);
 		}
@@ -121,18 +121,18 @@ class SimpleModal {
 
 		const modalWindow = document.createElement('div');
 		modalWindow.classList.add('dom-modal-window');
-		
+
 		if (this.wideModal === true) {
 			modalWindow.classList.add('dom-modal-wide');
 		}
-		
+
 		const modalExitBtn = document.createElement('span');
 		modalExitBtn.classList.add('dom-modal-exit', 'dom-modal-close-with-click');
 		modalExitBtn.innerHTML = '<svg width="22" height="22" stroke-width="2" stroke="currentColor" stroke-linecap="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 6 6 18M6 6l12 12"></path></svg>';
 
 		const modalContainer = document.createElement('div');
 		modalContainer.classList.add('dom-modal-container');
-		
+
 		if (this.title) {
 			const modalTitle = document.createElement('h4');
 			modalTitle.classList.add('dom-modal-title');
@@ -149,7 +149,7 @@ class SimpleModal {
 
 		modalWindow.append(modalExitBtn, modalContainer);
 		modalBox.append(modalWindow);
-		
+
 		return modalBox;
 	}
 
@@ -203,7 +203,7 @@ class SimpleModal {
 			if (this.type === 'confirm') {
 				if (e.target.classList.contains('dom-modal-btn-confirm')) {
 					this._modalConfirmTrue();
-				} else {
+				} else if (e.target.classList.contains('dom-modal-btn-cancel')) {
 					this._modalConfirmFalse();
 				}
 			}
@@ -216,9 +216,9 @@ class SimpleModal {
 		if (e.key === 'Escape') {
 			e.preventDefault();
 
-			if (this.type === 'confirm') {
-				this._modalConfirmFalse();
-			}
+			// if (this.type === 'confirm') {
+			// 	this._modalConfirmFalse();
+			// }
 
 			this.closeModal();
 		}
@@ -227,7 +227,7 @@ class SimpleModal {
 	_closeModalWithEnter(e) {
 		if (e.key === 'Enter') {
 			e.preventDefault();
-			
+
 			if (this.type === 'confirm') {
 				this._modalConfirmTrue();
 			}
@@ -241,7 +241,7 @@ class SimpleModal {
 			this.onConfirm();
 		}
 	}
-	
+
 	_modalConfirmFalse() {
 		if (typeof this.onCancel === 'function') {
 			this.onCancel();
@@ -261,14 +261,17 @@ class SimpleModal {
 	}
 
 	_openWithBtn(e) {
-		const btns = document.querySelectorAll(`[data-dom-modal=${this.modalId}]`);
-		btns.forEach((btn) => {
-			btn.addEventListener('click', (e) => {
-				e.preventDefault();
-				this.openModal();
-			});
+		this._openBtns = document.querySelectorAll(`[data-dom-modal=${this.modalId}]`);
+		this._openBtns.forEach((btn) => {
+			btn.addEventListener('click', this._boundOpenWithBtn);
 		});
 	}
+
+	_boundOpenWithBtn = (e) => {
+		e.preventDefault();
+		this.openModal();
+	}
+
 
 	_addNoTremorContent() {
 		document.body.classList.add('dom-modal-open');
@@ -282,7 +285,7 @@ class SimpleModal {
 		document.body.classList.remove('dom-modal-open');
 		document.body.style.paddingRight = '';
 	}
-	
+
 	openModal() {
 		this._modalElem = document.getElementById(this.modalId);
 
@@ -295,11 +298,11 @@ class SimpleModal {
 			document.addEventListener('keydown', this._boundCloseModalClickWithEnter);
 			this._modalElem.querySelector('.dom-modal-btn-info').addEventListener('click', this._boundCloseModalClick);
 		}
-		
+
 		if (this.type === 'confirm') {
 			document.addEventListener('keydown', this._boundCloseModalClickWithEnter);
 		}
-		
+
 		this._addNoTremorContent();
 		this._modalElem.classList.add('dom-modal-show');
 		document.addEventListener('keydown', this._boundCloseModalWithEsc);
@@ -310,19 +313,49 @@ class SimpleModal {
 	}
 
 	closeModal() {
-		this._onModalClose();
 		this._removeNoTremorContent();
 		this._modalElem.classList.remove('dom-modal-show');
 		document.removeEventListener('keydown', this._boundCloseModalWithEsc);
 		document.removeEventListener('keydown', this._boundCloseModalClickWithEnter);
 		this._modalElem.removeEventListener('click', this._boundCloseModalClick);
-
+		
 		const arr = this._modalElem.querySelectorAll('.dom-modal-close-with-click');
 		arr.forEach((item) => {
 			item.removeEventListener('click', this._boundCloseModalClick);
 		});
+		this._onModalClose();
 
 		return this;
+	}
+
+	destroyModal() {
+		// Якщо модалка відкрита — закриваємо
+		if (this._modalElem?.classList.contains('dom-modal-show')) {
+			this.closeModal();
+		}
+
+		// Знімаємо openWithBtn listeners
+		if (this._openBtns) {
+			this._openBtns.forEach(btn => {
+				btn.removeEventListener("click", this._boundOpenWithBtn);
+			});
+		}
+
+		// Видаляємо DOM
+		if (this._modalElem) {
+			this._modalElem.remove();
+		}
+
+		// Прибираємо ID з глобального списку
+		SimpleModal.idsList = SimpleModal.idsList.filter(
+			id => id !== this.modalId
+		);
+
+		// Очищаємо посилання
+		this._modalElem = null;
+		this._openBtns = null;
+
+		return null;
 	}
 }
 
