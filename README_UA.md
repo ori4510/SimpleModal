@@ -7,7 +7,7 @@ SimpleModal - це простий та легкий JS-плагін для ст�
 
 ## Demo
 
-[Дивитись demo](https://ori4510.github.io/SimpleModal/docs/index_ua.html)
+[Дивитись demo](https://ori4510.github.io/SimpleModal/index_ua.html)
 <br>
 <br>
 
@@ -145,7 +145,7 @@ const modalFromHtml = Modal({
 
 ## Параметри
 
-Детальніше [дивіться в demo](https://ori4510.github.io/SimpleModal/docs/index_ua.html)
+Детальніше [дивіться в demo](https://ori4510.github.io/SimpleModal/index_ua.html)
 <br>
 <br>
 
@@ -209,7 +209,7 @@ openWithBtn - дозволити відкривати модальне вікн�
 
 Винесено в окрему опцію, щоб не вішати зайвий EventListener, якщо запуск з кнопки на сторінці не потрібний.
 
-Детальніше [дивіться в demo](https://ori4510.github.io/SimpleModal/docs/index_ua.html#open_with_btn)
+Детальніше [дивіться в demo](https://ori4510.github.io/SimpleModal/index_ua.html#open_with_btn)
 
 > **Тип**: boolean
 

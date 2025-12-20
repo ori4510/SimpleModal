@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SimpleModal</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../src/simple-modal.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<div class="container">
+			<h1>SimpleModal</h1>
+
+			<section class="section d-flex flex-center flex-content-around">
+				<div class="d-flex flex-column">
+					<h2>Навігація</h2>
+					<nav class="main-nav">
+						<ul class="nav">
+							<li><a href="#about">About</a></li>
+							<li><a href="#simple_modal">Simple modal</a></li>
+							<li><a href="#confirm_modal">Confirm modal</a></li>
+							<li><a href="#info_modal">Info modal</a></li>
+							<li><a href="#get_html_modal">Get HTML modal</a></li>
+						</ul>
+					</nav>
+				</div>
+				<a href="https://github.com/ori4510/SimpleModal/blob/main/README_UA.md" class="btn btn-black doc-btn" target="_blank">Читати документацію</a>
+			</section>
+
+			<section class="section" id="about">
+				<h2>About</h2>
+				<p>SimpleModal - плагін для створення і для роботи з модальними вікнами.</p>
+				<p>SimpleModal можна використовувати 2 шляхами:</p>
+				<ol>
+					<li><strong>Метод createModal();</strong> <br>Створити модальне вікно динамічно, передавши аргументи title і content. Все буде згенеровано JS і додано в DOM-дерево.</li>
+					<li><strong>Метод getModal();</strong> <br>Статично. Додати десь в межах тега &lt;body&gt; html-шаблон модального вікна з вашим контентом. <a href="#get_html_modal">Приклад тут</a></li>
+				</ol>
+				<br>
+				<p>SimpleModal має 3 типи:</p>
+				<h4>Просте модальне вікно</h4>
+				<p>Звичайне просте модальне вікно, контентом може бути що завгодно: текст, форма, таблиця, зображення і т.д.</p>
+
+				<br>
+				<h4>Модальне вікно з підтвердженням</h4>
+				<p>Має 2 кнопки <b>'Ok'</b> та <b>'Cancel'</b>. Можна використовувати якщо потрібна якась дія з підтвердженням, щось видалити, наприклад. Також можна додати title і/або content.</p>
+				<p>Підтвердження спрацює при натисканні клавіши <b>Enter</b>, а також клікнувши по кнопці <b>'Ok'</b>. Після чого запуститься callback <b>onConfirm</b>, якщо передати в нього функцію.</p>
+				<p>Відміна спрацює лише клікнувши по кнопці <b>'Cancel'</b>. Після чого запуститься callback <b>onCancel</b>, якщо передати в нього функцію. Якщо бажаєте також задіяти натискання клавіші Escape, а також клікнувши по масці чи по close-button для розпізнавання відміни використайте додатково метод <b>onClose</b>. </p>
+
+				<br>
+				<h4>Інформаційне вікно</h4>
+				<p>Модальне вікно з кнопкою 'Ok', яка просто закриває модальне вікно. Можна на неї повісити якусь свою подію.</p>
+
+				<br>
+				<hr>
+				<br>
+				<p>Обов'язковий параметр лише один - <strong>modalId</strong>. Якщо використовуєте createModal() тоді modalId потрібно придумати. Дублі id призведуть до помилки. А якщо використовуєте getModal() тоді modalId повинен відповідати id яке в html-шаблоні.</p>
+				<br>
+				<hr>
+				<br>
+				<br>
+				<h3>Відкрити модальне вікно</h3>
+				<h4>Варіант 1. Визвати метод openModal() у змінної з екземпляром класу SimpleModal.</h4>
+				<br>
+				<p>Крок 1. Створіть [createModal()] або отримайте [getModal()] модальне вікно і помістіть екземпляр у змінну.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>const myModal = Modal({
+	modalId: 'myModalId',
+	title: 'My title',
+	content: 'My content',
+}).createModal();</code></pre>
+				<p>Крок 2. Викличте метод openModal(), щоб відкрити модальне вікно..</p>
+				<pre><span class="dom-copy-btn">copy</span><code>document.querySelector('#button').addEventListener('click', () =&gt; {
+	myModal.openModal();
+});</code></pre>
+				<br>
+				<br>
+				<h4 id="open_with_btn">Варіант 2. Через кнопки.</h4>
+				<br>
+				<p>Step 1. Створити на сторінці кнопку чи кнопки, додати атрибут <strong>data-dom-modal</strong>, передавши в нього id необхідного модального вікна.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>&lt;button data-dom-modal="myModalId"&gt;Open modal window&lt;/button&gt;</code></pre>
+				<p>Step 2. Додати аргумент <strong>openWithBtn: true</strong> до виклику модального вікна.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>const myModal = Modal({
+	...
+	openWithBtn: true,
+}).createModal();</code></pre>
+
+				<br>
+				<hr>
+				<br>
+				<h3>Закрити модальне вікно</h3>
+				<p>Щоб закрити модальне вікно, просто натисніть кнопку закриття, на маску або натисніть Escape. Але якщо модальне вікно містить, наприклад, форму, і після її відправки вам потрібно закрити модальне вікно, використовуйте метод <strong>closeModal()</strong>.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>myModal.closeModal();</code></pre>
+				<br>
+				<hr>
+				<br>
+				<h3>Методи</h3>
+				<h4>onOpen</h4>
+				<p>Запускається після відкриття модального вікна, якщо в нього передати функцію. Працює для всіх типів модальних вікон.</p>
+				<br>
+				<h4>onClose</h4>
+				<p>Запускається після закриття модального вікна, якщо в нього передати функцію. Працює для всіх типів модальних вікон.</p>
+				<br>
+				<h4>onConfirm</h4>
+				<p>Запускається після кліку на кнопку підтвердження у модальному вікні, якщо в нього передати функцію. Закриває модальне вікно. Працює тільки для <b>type: 'confirm'</b>.</p>
+				<br>
+				<h4>onCancel</h4>
+				<p>Запускається після кліку на кнопку відміни у модальному вікні, якщо в нього передати функцію. Закриває модальне вікно. Працює тільки для <b>type: 'confirm'</b>.</p>
+				<br>
+				<p id="sample_methods">Нижче приклад роботи onOpen і onClose. <br>При відкритті модального вікна, яке містить форму, знаходимо перший інпут, не з типом "hidden" і додаємо йому фокус. <br>А при закритті модального вікна робимо ресет форми, якщо в інпутах раптом залишалась якась інфа при закритті вікна.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>const myModal = Modal({
+	modalId: 'modal_example',
+	onOpen: () => {
+		document.querySelector('#modal_example form input:not([type="hidden"])').focus();
+	},
+	onClose: () => {
+		document.querySelector('#modal_example form').reset();
+	},
+}).getModal();</code></pre>
+				<br>
+				<hr>
+				<br>
+				<h3>Видалення</h3>
+				<p>Щоб знищити екземпляр модального вікна і DOM-елемент використайте метод <strong>destroyModal()</strong></p>
+<pre><span class="dom-copy-btn">copy</span><code>myModal.destroyModal();</code></pre>
+			</section>
+
+			<section class="section s1" id="simple_modal">
+				<h2>Simple modal</h2>
+				<div class="d-flex flex-wrap flex-content-around">
+					<div class="flex-item left-part">
+						<p>Example:</p>
+						<button id="b-1" class="btn btn-show-modal">Show Modal</button>
+					</div>
+					<div class="flex-item right-part">
+						<ul>
+							<li><strong>modalId</strong> - (string) ідентифікатор модального вікна.</li>
+							<li><strong>title</strong> - (string) title модального вікна. Підтримує HTML-теги.</li>
+							<li><strong>content</strong> - (string) content модального вікна. Підтримує HTML-теги.</li>
+							<li><strong>type</strong> - (string) (simple | confirm | info) тип модального вікна.</li>
+							<li><strong>openWithBtn</strong> - (boolean) дозволити відкривати модальне вікно з кнопки/кнопок вставлених на сторінці. <a href="#open_with_btn">Детальніше тут</a></li>
+							<li><strong>wideModal</strong> - (boolean) додає клас 'dom-modal-wide', який розширяє максимальну ширину модального вікна до 1200px.</li>
+							<li><strong>onOpen</strong> - (function) колбек-функція, яка запускається коли відкривається модальне вікно. <a href="#sample_methods">Приклад тут</a></li>
+							<li><strong>onClose</strong> - (function) колбек-функція, яка запускається коли закривається модальне вікно. <a href="#sample_methods">Приклад тут</a></li>
+						</ul>
+						<pre><span class="dom-copy-btn">copy</span><code>const myModal = Modal({
+	modalId: 'myModalId',
+	title: 'My title',
+	content: 'My content',
+}).createModal();</code></pre>
+					</div>
+				</div>
+			</section>
+
+			<section class="section s2" id="confirm_modal">
+				<h2>Confirm modal</h2>
+				<div class="d-flex flex-wrap flex-content-around">
+					<div class="flex-item left-part">
+						<p>Example:</p>
+						<button id="b-2" class="btn btn-show-modal">Show Confirm Modal</button>
+					</div>
+					<div class="flex-item right-part">
+						<ul>
+							<li><strong>modalId</strong> - (string) ідентифікатор модального вікна.</li>
+							<li><strong>title</strong> - (string) title модального вікна. Підтримує HTML-теги.</li>
+							<li><strong>content</strong> - (string) content модального вікна. Підтримує HTML-теги.</li>
+							<li><strong>type</strong> - (string) (simple | confirm | info) тип модального вікна.</li>
+							<li><strong>openWithBtn</strong> - (boolean) дозволити відкривати модальне вікно з кнопки/кнопок вставлених на сторінці. <a href="#open_with_btn">Детальніше тут</a></li>
+							<li><strong>wideModal</strong> - (boolean) додає клас 'dom-modal-wide', який розширяє максимальну ширину модального вікна до 1200px.</li>
+							<li><strong>onOpen</strong> - (function) колбек-функція, яка запускається коли відкривається модальне вікно. <a href="#sample_methods">Приклад тут</a></li>
+							<li><strong>onClose</strong> - (function) колбек-функція, яка запускається коли закривається модальне вікно. <a href="#sample_methods">Приклад тут</a></li>
+						</ul>
+						<div class="divider">===== only for this type =====</div>
+						<ul>
+							<li><strong>modalConfirmBtnText</strong> - (string) текст для кнопки підтвердження. За замовчуванням 'Ok'</li>
+							<li><strong>modalCancelBtnText</strong> - (string) текст для кнопки скасування. За замовчуванням 'Cancel'</li>
+							<li><strong>onConfirm</strong> - (function) callback-функція, яка запускається після натискання кнопки підтвердження, а також при натисканні клавіші Enter</li>
+							<li><strong>onCancel</strong> - (function) callback-функція, яка запускається після натискання кнопки відміни</li>
+						</ul>
+						<pre><span class="dom-copy-btn">copy</span><code>const myConfirmModal = Modal({
+	modalId: 'myConfirmModalId',
+	title: 'Confirm Modal',
+	content: 'Content',
+	type: 'confirm',
+	modalConfirmBtnText: 'Yes',
+	modalCancelBtnText: 'No',
+	onConfirm: () => {
+		alert('Confirmed');
+	},
+	onCancel: () => {
+		alert('Canceled');
+	},
+}).createModal();</code></pre>
+					</div>
+				</div>
+			</section>
+
+			<section class="section s3" id="info_modal">
+				<h2>Info modal</h2>
+				<div class="d-flex flex-wrap flex-content-around">
+					<div class="flex-item left-part">
+						<p>Example:</p>
+						<button id="b-3" class="btn btn-show-modal">Show Info Modal</button>
+					</div>
+					<div class="flex-item right-part">
+						<ul>
+							<li><strong>modalId</strong> - (string) ідентифікатор модального вікна.</li>
+							<li><strong>title</strong> - (string) title модального вікна. Підтримує HTML-теги.</li>
+							<li><strong>content</strong> - (string) content модального вікна. Підтримує HTML-теги.</li>
+							<li><strong>type</strong> - (string) (simple | confirm | info) тип модального вікна.</li>
+							<li><strong>openWithBtn</strong> - (boolean) дозволити відкривати модальне вікно з кнопки/кнопок вставлених на сторінці. <a href="#open_with_btn">Детальніше тут</a></li>
+							<li><strong>wideModal</strong> - (boolean) додає клас 'dom-modal-wide', який розширяє максимальну ширину модального вікна до 1200px.</li>
+							<li><strong>onOpen</strong> - (function) колбек-функція, яка запускається коли відкривається модальне вікно. <a href="#sample_methods">Приклад тут</a></li>
+							<li><strong>onClose</strong> - (function) колбек-функція, яка запускається коли закривається модальне вікно. <a href="#sample_methods">Приклад тут</a></li>
+						</ul>
+						<div class="divider">===== only for this type =====</div>
+						<ul>
+							<li><strong>modalInfoBtnText</strong> - (string) текст для кнопки. За замовчуванням 'Ok'</li>
+						</ul>
+						<pre><span class="dom-copy-btn">copy</span><code>const myInfoModal = Modal({
+	modalId: 'myInfoModalId',
+	title: 'Info Modal',
+	content: 'Content',
+	type: 'info',
+	modalInfoBtnText: 'Yes',
+}).createModal();</code></pre>
+					</div>
+				</div>
+			</section>
+
+			<section class="section s4" id="get_html_modal">
+				<h2>Get HTML modal</h2>
+				<div class="d-flex flex-wrap flex-content-around">
+					<div class="flex-item left-part">
+						<p>Example:</p>
+						<button id="b-4" class="btn btn-show-modal">Show Get Modal</button>
+					</div>
+					<div class="flex-item right-part">
+						<ul>
+							<li><strong>modalId</strong> - (string) ідентифікатор модального вікна.</li>
+							<li><strong>type</strong> - (string) (simple | confirm | info) тип модального вікна.</li>
+							<li><strong>openWithBtn</strong> - (boolean) дозволити відкривати модальне вікно з кнопки/кнопок вставлених на сторінці. <a href="#open_with_btn">Детальніше тут</a></li>
+							<li><strong>wideModal</strong> - (boolean) додає клас 'dom-modal-wide', який розширяє максимальну ширину модального вікна до 1200px.</li>
+							<li><strong>onOpen</strong> - (function) колбек-функція, яка запускається коли відкривається модальне вікно. <a href="#sample_methods">Приклад тут</a></li>
+							<li><strong>onClose</strong> - (function) колбек-функція, яка запускається коли закривається модальне вікно. <a href="#sample_methods">Приклад тут</a></li>
+						</ul>
+						<div class="divider">===== only for type confirm =====</div>
+						<ul>
+							<li><strong>onConfirm</strong> - (function) callback-функція, яка запускається після натискання кнопки підтвердження, а також при натисканні клавіші Enter</li>
+							<li><strong>onCancel</strong> - (function) callback-функція, яка запускається після натискання кнопки відміни</li>
+						</ul>
+						<br>
+						<br>
+						<p>Якщо вам не потрібно або не хочеться створювати модальне вікно динамічно за допомогою JS, ви можете розмістити на сторінці HTML-шаблон модального вікна з вашими даними. Ви можете отримати його для подальшої роботи за допомогою методу <strong>getModal()</strong>.</p>
+						<br>
+						<p>Крок 1. Вставте шаблон на свою сторінку. Не забудьте змінити <strong>id</strong></p>
+						<pre><span class="dom-copy-btn">copy</span><code>&lt;div class="dom-modal-mask" id="my_modal_id"&gt;
+	&lt;div class="dom-modal-window"&gt;
+		&lt;span class="dom-modal-exit dom-modal-close-with-click"&gt;&lt;svg width="22" height="22" stroke-width="2" stroke="currentColor" stroke-linecap="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path d="M18 6 6 18M6 6l12 12"&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;
+		&lt;div class="dom-modal-container"&gt;
+			&lt;h4 class="dom-modal-title"&gt;My_Modal_Title&lt;/h4&gt;
+			&lt;div class="dom-modal-content"&gt;
+				&lt;!-- // your_content --&gt;
+			&lt;/div&gt;
+
+			&lt;!-- for type confirm --&gt;
+			&lt;div class="dom-modal-btn-wrap"&gt;
+				&lt;button type="button" class="btn dom-modal-close-with-click dom-modal-btn-confirm"&gt;Ok&lt;/button&gt;
+				&lt;button type="button" class="btn dom-modal-close-with-click dom-modal-btn-cancel"&gt;Cancel&lt;/button&gt;
+			&lt;/div&gt;
+			&lt;!-- /for type confirm --&gt;
+
+			&lt;!-- for type info --&gt;
+			&lt;div class="dom-modal-btn-wrap"&gt;
+				&lt;button type="button" class="btn dom-modal-close-with-click dom-modal-btn-info"&gt;Ok&lt;/button&gt;
+			&lt;/div&gt;
+			&lt;!-- /for type info --&gt;
+
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+						<p>Крок 2. Отримайте модальне вікно та помістіть екземпляр у змінну</p>
+						<ul>
+							<li><strong>modalId</strong> - ідентифікатор модального вікна з HTML-коду. З кроку 1.</li>
+						</ul>
+						<pre><span class="dom-copy-btn">copy</span><code>const modalFromHtml = Modal({
+	modalId: 'my_modal_id',
+}).getModal();</code></pre>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+
+	<div class="dom-modal-mask" id="modal_example">
+		<div class="dom-modal-window">
+			<span class="dom-modal-exit dom-modal-close-with-click"><svg width="22" height="22" stroke-width="2" stroke="currentColor" stroke-linecap="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path d="M18 6 6 18M6 6l12 12"></path>
+				</svg></span>
+			<div class="dom-modal-container">
+				<h4 class="dom-modal-title">Modal Title</h4>
+				<div class="dom-modal-content">
+					<form>
+						<input name="inp1" type="text" placeholder="Input 1">
+						<br>
+						<br>
+						<input class="btn" type="submit" value="Send">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../src/simple-modal.js"></script>
+	<script src="js/demo.js"></script>
+</body>
+
+</html>
