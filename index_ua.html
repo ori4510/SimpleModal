@@ -66,7 +66,7 @@
 				<br>
 				<br>
 				<h3>Відкрити модальне вікно</h3>
-				<h4>Варіант 1. Визвати метод openModal() у змінної з екземпляром класу SimpleModal.</h4>
+				<h4>Варіант 1. Визвати метод open() у змінної з екземпляром класу SimpleModal.</h4>
 				<br>
 				<p>Крок 1. Створіть [createModal()] або отримайте [getModal()] модальне вікно і помістіть екземпляр у змінну.</p>
 				<pre><span class="dom-copy-btn">copy</span><code>const myModal = Modal({
@@ -74,9 +74,9 @@
 	title: 'My title',
 	content: 'My content',
 }).createModal();</code></pre>
-				<p>Крок 2. Викличте метод openModal(), щоб відкрити модальне вікно..</p>
+				<p>Крок 2. Викличте метод open(), щоб відкрити модальне вікно..</p>
 				<pre><span class="dom-copy-btn">copy</span><code>document.querySelector('#button').addEventListener('click', () =&gt; {
-	myModal.openModal();
+	myModal.open();
 });</code></pre>
 				<br>
 				<br>
@@ -94,8 +94,8 @@
 				<hr>
 				<br>
 				<h3>Закрити модальне вікно</h3>
-				<p>Щоб закрити модальне вікно, просто натисніть кнопку закриття, на маску або натисніть Escape. Але якщо модальне вікно містить, наприклад, форму, і після її відправки вам потрібно закрити модальне вікно, використовуйте метод <strong>closeModal()</strong>.</p>
-				<pre><span class="dom-copy-btn">copy</span><code>myModal.closeModal();</code></pre>
+				<p>Щоб закрити модальне вікно, просто натисніть кнопку закриття, на маску або натисніть Escape. Але якщо модальне вікно містить, наприклад, форму, і після її відправки вам потрібно закрити модальне вікно, використовуйте метод <strong>close()</strong>.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>myModal.close();</code></pre>
 				<br>
 				<hr>
 				<br>
@@ -123,11 +123,21 @@
 	},
 }).getModal();</code></pre>
 				<br>
+				<h4>lock</h4>
+				<p>Блокує можливість закрити модальне вікно. Наприклад, коли потрібно дочекатись відповідь від асинхронного запиту.</p>
+				<p>Також додає DOM-елементу клас 'dom-modal-lock'.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>myModal.lock();</code></pre>
+				<br>
+				<h4>unlock</h4>
+				<p>Знімає блокування і дозволяє закрити модальне вікно.</p>
+				<p>Видаляє у DOM-елемента клас 'dom-modal-lock'.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>myModal.unlock();</code></pre>
+				<br>
 				<hr>
 				<br>
 				<h3>Видалення</h3>
-				<p>Щоб знищити екземпляр модального вікна і DOM-елемент використайте метод <strong>destroyModal()</strong></p>
-				<pre><span class="dom-copy-btn">copy</span><code>myModal.destroyModal();</code></pre>
+				<p>Щоб знищити екземпляр модального вікна і DOM-елемент використайте метод <strong>destroy()</strong></p>
+				<pre><span class="dom-copy-btn">copy</span><code>myModal.destroy();</code></pre>
 			</section>
 
 			<section class="section s1" id="simple_modal">

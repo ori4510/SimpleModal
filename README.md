@@ -352,10 +352,10 @@ onCancel: () => {
 
 ### Destruction
 
-destroyModal - destruction of a class instance. The DOM element will also be destroyed.
+destroy - destruction of a class instance. The DOM element will also be destroyed.
 
 ```javascript
-instanceModal.destroyModal();
+instanceModal.destroy();
 ```
 
 <br>

@@ -50,6 +50,7 @@ class SimpleModal {
 		this.onClose = onClose;
 		this.onConfirm = onConfirm;
 		this.onCancel = onCancel;
+		this._isLocked = false;
 
 		if (SimpleModal.idsList.includes(modalId)) {
 			console.error('Duplicate id: ' + modalId);
@@ -199,6 +200,11 @@ class SimpleModal {
 	}
 
 	_closeModalClick(e) {
+		if (this._isLocked) {
+			e.preventDefault();
+			return;
+		}
+
 		if (e.target === this._modalElem || e.target.classList.contains('dom-modal-close-with-click')) {
 			if (this.type === 'confirm') {
 				if (e.target.classList.contains('dom-modal-btn-confirm')) {
@@ -208,19 +214,20 @@ class SimpleModal {
 				}
 			}
 
-			this.closeModal();
+			this.close();
 		}
 	}
 
 	_closeModalWithEsc(e) {
+		if (this._isLocked) {
+			e.preventDefault();
+			return;
+		}
+
 		if (e.key === 'Escape') {
 			e.preventDefault();
 
-			// if (this.type === 'confirm') {
-			// 	this._modalConfirmFalse();
-			// }
-
-			this.closeModal();
+			this.close();
 		}
 	}
 
@@ -232,7 +239,7 @@ class SimpleModal {
 				this._modalConfirmTrue();
 			}
 
-			this.closeModal();
+			this.close();
 		}
 	}
 
@@ -269,7 +276,7 @@ class SimpleModal {
 
 	_boundOpenWithBtn = (e) => {
 		e.preventDefault();
-		this.openModal();
+		this.open();
 	}
 
 
@@ -286,7 +293,7 @@ class SimpleModal {
 		document.body.style.paddingRight = '';
 	}
 
-	openModal() {
+	open() {
 		this._modalElem = document.getElementById(this.modalId);
 
 		if (!this._modalElem) {
@@ -312,13 +319,17 @@ class SimpleModal {
 		return this;
 	}
 
-	closeModal() {
+	close() {
+		if (this._isLocked) {
+			return;
+		}
+
 		this._removeNoTremorContent();
 		this._modalElem.classList.remove('dom-modal-show');
 		document.removeEventListener('keydown', this._boundCloseModalWithEsc);
 		document.removeEventListener('keydown', this._boundCloseModalClickWithEnter);
 		this._modalElem.removeEventListener('click', this._boundCloseModalClick);
-		
+
 		const arr = this._modalElem.querySelectorAll('.dom-modal-close-with-click');
 		arr.forEach((item) => {
 			item.removeEventListener('click', this._boundCloseModalClick);
@@ -328,10 +339,10 @@ class SimpleModal {
 		return this;
 	}
 
-	destroyModal() {
+	destroy() {
 		// Якщо модалка відкрита — закриваємо
 		if (this._modalElem?.classList.contains('dom-modal-show')) {
-			this.closeModal();
+			this.close();
 		}
 
 		// Знімаємо openWithBtn listeners
@@ -357,6 +368,21 @@ class SimpleModal {
 
 		return null;
 	}
+
+	lock() {
+		this._isLocked = true;
+		this._modalElem.classList.add('dom-modal-lock');
+
+		return this;
+	}
+
+	unlock() {
+		this._isLocked = false;
+		this._modalElem.classList.remove('dom-modal-lock');
+
+		return this;
+	}
+
 }
 
 function Modal(options = {}) {

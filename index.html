@@ -70,7 +70,7 @@
 				<br>
 				<br>
 				<h3>Open the modal window</h3>
-				<h4>Option 1: Call the openModal() method on the variable holding the SimpleModal class instance.</h4>
+				<h4>Option 1: Call the open() method on the variable holding the SimpleModal class instance.</h4>
 
 				<br>
 				<p>Step 1. Create [createModal()] or get [getModal()] modal window and put instance in variable.</p>
@@ -79,9 +79,9 @@
 	title: 'My title',
 	content: 'My content',
 }).createModal();</code></pre>
-				<p>Step 2. Call the openModal() method to open the modal.</p>
+				<p>Step 2. Call the open() method to open the modal.</p>
 				<pre><span class="dom-copy-btn">copy</span><code>document.querySelector('#button').addEventListener('click', () =&gt; {
-	myModal.openModal();
+	myModal.open();
 });</code></pre>
 				<br>
 				<br>
@@ -99,8 +99,8 @@
 				<hr>
 				<br>
 				<h3>Close the modal window</h3>
-				<p>To close the modal window, just click on the close button, on the mask, or press Escape. But if the modal window contains, for example, a form, and after submitting it, you need to close the modal window, use the <strong>closeModal()</strong> method.</p>
-				<pre><span class="dom-copy-btn">copy</span><code>myModal.closeModal();</code></pre>
+				<p>To close the modal window, just click on the close button, on the mask, or press Escape. But if the modal window contains, for example, a form, and after submitting it, you need to close the modal window, use the <strong>close()</strong> method.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>myModal.close();</code></pre>
 				<br>
 				<hr>
 				<br>
@@ -127,12 +127,22 @@
 		document.querySelector('#modal_example form').reset();
 	},
 }).getModal();</code></pre>
+<br>
+				<h4>lock</h4>
+				<p>Blocks the ability to close the modal window. For example, when you need to wait for a response from an asynchronous request.</p>
+				<p>Also adds a class to the DOM-element 'dom-modal-lock'.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>myModal.lock();</code></pre>
+				<br>
+				<h4>unlock</h4>
+				<p>Removes the lock and allows you to close the modal window.</p>
+				<p>Removes the class from the DOM-element 'dom-modal-lock'.</p>
+				<pre><span class="dom-copy-btn">copy</span><code>myModal.unlock();</code></pre>
 				<br>
 				<hr>
 				<br>
 				<h3>Destroy</h3>
-				<p>To destroy a modal window instance and DOM-element, use the method <strong>destroyModal()</strong></p>
-<pre><span class="dom-copy-btn">copy</span><code>myModal.destroyModal();</code></pre>
+				<p>To destroy a modal window instance and DOM-element, use the method <strong>destroy()</strong></p>
+<pre><span class="dom-copy-btn">copy</span><code>myModal.destroy();</code></pre>
 			</section>
 
 			<section class="section s1" id="simple_modal">

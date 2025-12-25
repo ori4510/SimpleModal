@@ -350,10 +350,10 @@ onCancel: () => {
 
 ### Знищення екземпляру
 
-destroyModal - знищує екземпляр класу. Також буде знищено DOM-елемент.
+destroy - знищує екземпляр класу. Також буде знищено DOM-елемент.
 
 ```javascript
-instanceModal.destroyModal();
+instanceModal.destroy();
 ```
 
 <br>
